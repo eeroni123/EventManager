@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { fetchEventItem } from "../../actions/actions";
+import { fetchEventItem } from "../../actions/eventActions";
 
 class EventDetail extends Component {
   render() {

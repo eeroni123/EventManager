@@ -23,6 +23,18 @@ export default (state = initialState, action) => {
       updated["eventItemLoading"] = true;
       return updated;
 
+    case constants.EVENTS_ADDPARTICIPANT:
+      var updatedParticipants = Object.assign(
+        [],
+        updated["eventItem"].participants
+      );
+      updatedParticipants.push({
+        username: action.username,
+        body: action.body
+      });
+      updated["eventItem"].participants = updatedParticipants;
+      return updated;
+
     default:
       return state;
   }

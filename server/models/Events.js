@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const EventSignUpSchema = require("./EventSignUp").schema;
 
 const EventsSchema = new mongoose.Schema({
   title: String,
@@ -12,7 +13,8 @@ const EventsSchema = new mongoose.Schema({
     type: Date,
     required: true,
     default: new Date()
-  }
+  },
+  participants: [EventSignUpSchema]
 });
 
 mongoose.model("Events", EventsSchema);

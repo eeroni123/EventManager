@@ -57,4 +57,29 @@ router.get("/:id", function(req, res, next) {
   });
 });
 
+router.post("/:id/signup", function(req, res, next) {
+  const id = req.params.id;
+
+  eventsController.createSignUp(
+    id,
+    req.userData.username,
+    req.body.body,
+    function(err, result) {
+      if (err) {
+        console.log(err);
+        res.json({
+          success: 0,
+          error: err
+        });
+        return;
+      }
+
+      res.json({
+        success: 1,
+        data: result
+      });
+    }
+  );
+});
+
 module.exports = router;

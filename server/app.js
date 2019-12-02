@@ -4,6 +4,8 @@ const eventsRoute = require("./routes/events");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+var authRoute = require("./routes/auth");
+const authCheckMiddleware = require("./middleware/authCheck");
 
 require("dotenv").config();
 
@@ -27,7 +29,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/", routes);
-
+app.use("/user", authRoute);
+app.use("/events/:id/signup", authCheckMiddleware);
 app.use("/events", eventsRoute);
 
 app.listen(PORT, function() {

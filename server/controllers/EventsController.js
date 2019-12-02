@@ -1,4 +1,5 @@
 const Events = require("../models/Events");
+const EventSignUp = require("../models/EventSignUp");
 
 module.exports = {
   create: function(params, callback) {
@@ -27,6 +28,28 @@ module.exports = {
         return;
       }
       callback(null, results);
+    });
+  },
+
+  createSignUp: function(id, username, body, callback) {
+    Events.findById(id, function(err, result) {
+      if (err) {
+        callback(err, null);
+        return;
+      }
+
+      var eventsignup = new EventSignUp({ username: username, body: body });
+
+      result.participants.push(eventsignup);
+
+      result.save(function(err, eventsignupResult) {
+        if (err) {
+          callback(err, null);
+          return;
+        }
+
+        callback(null, eventsignupResult);
+      });
     });
   }
 };

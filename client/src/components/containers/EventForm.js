@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import EventDetail from "../presentation/EventDetail";
 import { connect } from "react-redux";
-import { submitEvent } from "../../actions/actions";
+import { submitEvent } from "../../actions/eventActions";
 import { withRouter } from "react-router-dom";
 
 class EventForm extends Component {

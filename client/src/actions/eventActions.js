@@ -20,6 +20,14 @@ function eventItemLoading() {
   };
 }
 
+function addParticipant(username, body) {
+  return {
+    type: actionTypes.EVENTS_ADDPARTICIPANT,
+    username: username,
+    body: body
+  };
+}
+
 export function fetchEvents() {
   return dispatch => {
     return fetch(`/events`)
@@ -49,5 +57,30 @@ export function submitEvent(data) {
       body: JSON.stringify(data),
       mode: "cors"
     }).catch(e => console.log(e));
+  };
+}
+
+export function submitSignUp(eventItemID, username, data) {
+  var token = localStorage.getItem("token") || null;
+
+  return dispatch => {
+    return fetch(`/events/${eventItemID}/signup`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify(data),
+      mode: "cors"
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw Error(response.statusText);
+        } else {
+          dispatch(addParticipant(username, data.body));
+        }
+      })
+      .catch(e => console.log(e));
   };
 }
