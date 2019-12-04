@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import Events from "../containers/Events";
+import { FormControl, Button, TextField, Grid } from "@material-ui/core";
 class Home extends Component {
   render() {
     return (
-      <div>
-        <div>Home</div>
-        <div>
+      <Grid container spacing={1} justify="space-between">
+        <Grid item xs={12}>
           <Events />
-        </div>
-      </div>
+        </Grid>
+      </Grid>
     );
   }
 }

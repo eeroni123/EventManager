@@ -1,30 +1,55 @@
 import React, { Component } from "react";
 import SignUpElement from "../presentation/SignUpElement";
 import SignUpForm from "../presentation/SignUpForm";
-import { fetchEvents } from "../../actions/eventActions";
+import { List, Grid, Typography } from "@material-ui/core";
 
 class ParticipantPanel extends Component {
   render() {
-    const participantItems = this.props.participants.map((comment, i) => {
-      return (
-        <li key={i}>
-          <SignUpElement data={comment} />
-        </li>
-      );
-    });
+    const yesParticipants = this.props.participants
+      .filter(p => p.attendance === "Yes")
+      .map((participant, i) => {
+        return <SignUpElement data={participant} />;
+      });
+
+    const maybeParticipants = this.props.participants
+      .filter(p => p.attendance === "Maybe")
+      .map((participant, i) => {
+        return <SignUpElement data={participant} />;
+      });
+
+    const noParticipants = this.props.participants
+      .filter(p => p.attendance === "No")
+      .map((participant, i) => {
+        return <SignUpElement data={participant} />;
+      });
 
     return (
-      <div>
-        <h2>Participants</h2>
-        <ul>
-          {this.props.participants.length > 0 ? (
-            <ul>{participantItems}</ul>
-          ) : (
-            <div>No participants</div>
-          )}
-        </ul>
-        <SignUpForm eventItemID={this.props.id} />
-      </div>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Typography variant="h4">Participants</Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant="h5">Yes: </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <List>{yesParticipants}</List>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant="h5">Maybe: </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <List>{maybeParticipants}</List>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant="h5">No: </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <List>{noParticipants}</List>
+        </Grid>
+        <Grid item xs={12}>
+          <SignUpForm eventItemID={this.props.id} />
+        </Grid>
+      </Grid>
     );
   }
 }

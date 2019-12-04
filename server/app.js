@@ -1,6 +1,7 @@
 const express = require("express");
 const routes = require("./routes/index");
 const eventsRoute = require("./routes/events");
+const locationRoute = require("./routes/location");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
@@ -32,6 +33,7 @@ app.use("/", routes);
 app.use("/user", authRoute);
 app.use("/events/:id/signup", authCheckMiddleware);
 app.use("/events", eventsRoute);
+app.use("/location", locationRoute);
 
 app.listen(PORT, function() {
   console.log(`Listening on port ${PORT}`);

@@ -1,12 +1,9 @@
 var mongoose = require("mongoose");
+const { attendanceType } = require("./enums");
 
-var EventSignUpSchema = new mongoose.Schema({
+const EventSignUpSchema = new mongoose.Schema({
   username: String,
-  body: String,
-  status: {
-    type: Number,
-    default: 1
-  },
+  attendance: String,
   created: {
     type: Date,
     required: true,

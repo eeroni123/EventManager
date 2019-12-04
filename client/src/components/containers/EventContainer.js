@@ -3,6 +3,7 @@ import EventDetail from "../presentation/EventDetail";
 import { connect } from "react-redux";
 import { fetchEventItem } from "../../actions/eventActions";
 import ParticipantPanel from "./ParticipantPanel";
+import { List, Grid, Typography, Paper } from "@material-ui/core";
 
 class EventContainer extends Component {
   componentDidMount() {
@@ -13,20 +14,25 @@ class EventContainer extends Component {
     let { eventItem } = this.props;
 
     return (
-      <div>
-        <h2>Event Details</h2>
-        {!this.props.eventItemLoading ? (
-          <div>
-            <EventDetail data={eventItem} />{" "}
-            <ParticipantPanel
-              participants={this.props.participants}
-              id={this.props.eventItem._id}
-            />
-          </div>
-        ) : (
-          <div>Loading</div>
-        )}
-      </div>
+      <Paper
+        style={{ padding: 20, marginLeft: 20, maxWidth: 600, marginTop: 20 }}
+      >
+        <Grid container spacing={2}>
+          <Grid item>
+            {!this.props.eventItemLoading ? (
+              <div>
+                <EventDetail data={eventItem} />{" "}
+                <ParticipantPanel
+                  participants={this.props.participants}
+                  id={this.props.eventItem._id}
+                />
+              </div>
+            ) : (
+              <div>Loading</div>
+            )}
+          </Grid>
+        </Grid>
+      </Paper>
     );
   }
 }

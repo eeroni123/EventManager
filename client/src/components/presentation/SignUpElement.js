@@ -1,15 +1,18 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
+import Avatar from "@material-ui/core/Avatar";
 
 class SignUpElement extends Component {
   render() {
+    console.log(this.props.data);
     return (
-      <div>
-        <div>
-          <b>{this.props.data.username}</b>
-        </div>
-        <div>{this.props.data.body}</div>
-      </div>
+      <ListItem>
+        <ListItemIcon>
+          <Avatar>U</Avatar>
+        </ListItemIcon>
+        <ListItemText primary={this.props.data.username} />
+      </ListItem>
     );
   }
 }
@@ -17,7 +20,7 @@ class SignUpElement extends Component {
 SignUpElement.propTypes = {
   data: PropTypes.shape({
     username: PropTypes.string.isRequired,
-    body: PropTypes.string.isRequired
+    attendance: PropTypes.string.isRequired
   })
 };
 

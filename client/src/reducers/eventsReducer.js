@@ -30,7 +30,7 @@ export default (state = initialState, action) => {
       );
       updatedParticipants.push({
         username: action.username,
-        body: action.body
+        attendance: action.attendance
       });
       updated["eventItem"].participants = updatedParticipants;
       return updated;

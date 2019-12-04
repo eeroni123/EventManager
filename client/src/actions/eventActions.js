@@ -20,11 +20,11 @@ function eventItemLoading() {
   };
 }
 
-function addParticipant(username, body) {
+function addParticipant(username, attendance) {
   return {
     type: actionTypes.EVENTS_ADDPARTICIPANT,
     username: username,
-    body: body
+    attendance: attendance
   };
 }
 
@@ -78,7 +78,7 @@ export function submitSignUp(eventItemID, username, data) {
         if (!response.ok) {
           throw Error(response.statusText);
         } else {
-          dispatch(addParticipant(username, data.body));
+          dispatch(addParticipant(username, data.attendance));
         }
       })
       .catch(e => console.log(e));
