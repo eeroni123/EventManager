@@ -46,9 +46,7 @@ class LocationForm extends Component {
   render() {
     const classes = this.props;
     return (
-      <Paper
-        style={{ padding: 20, marginLeft: 20, maxWidth: 600, marginTop: 20 }}
-      >
+      <Paper style={{ padding: 20, margin: 20, maxWidth: 600 }}>
         <Grid
           className={classes.root}
           container

@@ -1,9 +1,8 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect } from "react";
 import EventDetail from "../presentation/EventDetail";
 import { connect } from "react-redux";
 import { submitEvent } from "../../actions/eventActions";
 import { withRouter } from "react-router-dom";
-import DateTimePicker from "react-datetime-picker";
 import { fetchLocations } from "../../actions/locationActions";
 import {
   FormControl,
@@ -11,82 +10,69 @@ import {
   TextField,
   Grid,
   Typography,
-  Paper
+  Paper,
+  MenuItem
 } from "@material-ui/core";
-import { MenuItem, Select } from "@material-ui/core";
+import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 
-class EventForm extends Component {
-  constructor() {
-    super();
-    this.state = {
-      submission: {}
-    };
-  }
+const EventForm = props => {
+  const [submission, setSubmission] = useState({});
 
-  componentDidMount() {
-    this.props.dispatch(fetchLocations());
-  }
+  useEffect(() => {
+    props.dispatch(fetchLocations());
+  }, []);
 
-  updateSubmission(event) {
-    let updatedSubmission = Object.assign({}, this.state.submission);
-
-    updatedSubmission[event.target.id] = event.target.value;
-    this.setState({
-      submission: updatedSubmission
+  const updateSubmission = event => {
+    setSubmission({
+      ...submission,
+      [event.target.id]: event.target.value
     });
-  }
+  };
 
-  submitSubmission() {
-    console.log(this.state.submission);
-    this.props.dispatch(submitEvent(this.state.submission));
-    this.props.history.push("/");
-  }
+  const submitSubmission = () => {
+    props.dispatch(submitEvent(submission));
+    props.history.push("/");
+  };
 
-  handleLocationChange(event) {
-    console.log(event.target.name);
-    let updatedSubmission = Object.assign({}, this.state.submission);
-    updatedSubmission[event.target.name] = event.target.value;
-
-    this.setState({
-      submission: updatedSubmission
+  const handleLocationChange = event => {
+    setSubmission({
+      ...submission,
+      [event.target.name]: event.target.value
     });
-  }
-  handleContactInfoChange(event) {
-    let updatedSubmission = Object.assign({}, this.state.submission, {
+  };
+  const handleContactInfoChange = event => {
+    const { location } = submission;
+    const { contactinfo } = location;
+    setSubmission({
+      ...submission,
       location: {
-        ...this.state.submission.location,
+        ...location,
         contactinfo: {
-          ...this.state.submission.location.contactinfo,
+          ...contactinfo,
           [event.target.id]: event.target.value
         }
       }
     });
-    this.setState({
-      submission: updatedSubmission
-    });
-  }
+  };
 
-  handleStartDateChange(date) {
-    let updatedSubmission = Object.assign({}, this.state.submission);
-    updatedSubmission["start"] = date;
-    this.setState({
-      submission: updatedSubmission
+  const handleStartDateChange = date => {
+    setSubmission({
+      ...submission,
+      start: date
     });
-  }
+  };
 
-  handleEndDateChange(date) {
-    let updatedSubmission = Object.assign({}, this.state.submission);
-    updatedSubmission["end"] = date;
-    this.setState({
-      submission: updatedSubmission
+  const handleEndDateChange = date => {
+    setSubmission({
+      ...submission,
+      end: date
     });
-  }
+  };
 
-  render() {
-    return (
-      <Paper
-        style={{ padding: 20, marginLeft: 20, maxWidth: 600, marginTop: 20 }}
-      >
+  return (
+    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+      <Paper style={{ padding: 20, margin: 20, maxWidth: 600 }}>
         <Grid container spacing={2} justify="space-between">
           <Grid item xs={12}>
             <TextField
@@ -94,7 +80,7 @@ class EventForm extends Component {
               fullWidth
               id="name"
               label="Name"
-              onChange={this.updateSubmission.bind(this)}
+              onChange={updateSubmission}
             />
           </Grid>
           <Grid item xs={12}>
@@ -104,9 +90,9 @@ class EventForm extends Component {
                 select
                 name="location"
                 label="Location"
-                onChange={this.handleLocationChange.bind(this)}
+                onChange={handleLocationChange}
               >
-                {this.props.locations.map(option => (
+                {props.locations.map(option => (
                   <MenuItem key={option._id} value={option._id}>
                     {option.city + ", " + option.address}
                   </MenuItem>
@@ -121,7 +107,7 @@ class EventForm extends Component {
               fullWidth
               id="description"
               label="Description"
-              onChange={this.updateSubmission.bind(this)}
+              onChange={updateSubmission}
             />
           </Grid>
           <Grid item xs={12}>
@@ -130,9 +116,9 @@ class EventForm extends Component {
           <Grid item xs={12}>
             <DateTimePicker
               fullWidth
-              onChange={this.handleStartDateChange.bind(this)}
+              onChange={handleStartDateChange}
               id="start"
-              value={this.state.submission.start}
+              value={submission.start}
             />
           </Grid>
           <Grid item xs={12}>
@@ -141,9 +127,9 @@ class EventForm extends Component {
           <Grid item xs={12}>
             <DateTimePicker
               fullWidth
-              onChange={this.handleEndDateChange.bind(this)}
+              onChange={handleEndDateChange}
               id="end"
-              value={this.state.submission.end}
+              value={submission.end}
             />
           </Grid>
           <Grid item xs={12}>
@@ -151,16 +137,16 @@ class EventForm extends Component {
               fullWidth
               variant="contained"
               color="primary"
-              onClick={this.submitSubmission.bind(this)}
+              onClick={submitSubmission}
             >
               Submit
             </Button>
           </Grid>
         </Grid>
       </Paper>
-    );
-  }
-}
+    </MuiPickersUtilsProvider>
+  );
+};
 
 const mapStateToProps = state => {
   return { locations: state.locations.locations };

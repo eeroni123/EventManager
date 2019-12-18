@@ -1,14 +1,21 @@
 import React, { Component } from "react";
-import Events from "../containers/Events";
-import { FormControl, Button, TextField, Grid } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
+import calendar from "../../images/Calendar.png";
 class Home extends Component {
   render() {
     return (
-      <Grid container spacing={1} justify="space-between">
-        <Grid item xs={12}>
-          <Events />
-        </Grid>
-      </Grid>
+      <React.Fragment>
+        <Typography
+          style={{
+            margin: "auto",
+            padding: 20
+          }}
+          variant="h2"
+        >
+          Welcome to Event Manager
+        </Typography>
+        <img src={calendar} alt="Calendar" />
+      </React.Fragment>
     );
   }
 }

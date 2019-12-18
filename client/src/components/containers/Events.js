@@ -11,7 +11,6 @@ import {
   MenuItem,
   Select
 } from "@material-ui/core";
-
 class Events extends Component {
   constructor() {
     super();
@@ -54,9 +53,7 @@ class Events extends Component {
         .map((event, i) => <EventListing data={event} />);
     }
     return (
-      <Paper
-        style={{ padding: 20, marginLeft: 20, maxWidth: 600, marginTop: 20 }}
-      >
+      <Paper style={{ padding: 20, margin: 20, maxWidth: 600 }}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <FormControl fullWidth>
